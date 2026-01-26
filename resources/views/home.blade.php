@@ -1,15 +1,24 @@
 @extends('layouts.user')
 
 @section('content')
-<h2 class="text-2xl font-bold mb-4">Film Sedang Tayang</h2>
+<!-- Placeholder untuk Transaksi User -->
+<div class="content-header">
+    <h1>
+        <i class="icofont icofont-ticket"></i>
+        Data Pemesanan Saya
+    </h1>
+</div>
 
-<div class="grid grid-cols-4 gap-6">
-    <div class="bg-white rounded shadow p-3">
-        <img src="/poster.jpg" class="rounded mb-2">
-        <h3 class="font-semibold">Judul Film</h3>
-        <button class="mt-2 bg-black text-white px-4 py-1 rounded">
-            Pesan Tiket
-        </button>
+<div class="section-card">
+    <h2 class="section-title">
+        <i class="icofont icofont-history"></i>
+        Riwayat Pemesanan
+    </h2>
+    
+    <div style="text-align: center; padding: 60px 20px; color: #999;">
+        <i class="icofont icofont-empty-box" style="font-size: 48px; margin-bottom: 20px; display: block; opacity: 0.5;"></i>
+        <p style="font-size: 16px; margin-bottom: 10px;">Belum ada pemesanan</p>
+        <p style="font-size: 13px;">Lakukan pemesanan tiket film di halaman sebelumnya</p>
     </div>
 </div>
 @endsection
