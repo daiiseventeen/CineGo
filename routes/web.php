@@ -20,6 +20,9 @@ Route::get('/home', function () {
     return view('home');
 })->middleware(['auth'])->name('home');
 
+Route::get('/nowplay', function () {
+    return view('user.nowplay');
+})->middleware(['auth'])->name('nowplay');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

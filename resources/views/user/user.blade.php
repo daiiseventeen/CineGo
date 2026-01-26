@@ -371,8 +371,8 @@
                 <a href="{{ route('home') }}" class="active">
                     <i class="icofont icofont-home"></i> Home
                 </a>
-                <a href="#">
-                    <i class="icofont icofont-film"></i> Film
+                <a href="{{ route('welcome') }}">
+                    <i class="icofont icofont-film"></i> Jelajahi Film
                 </a>
                 <a href="#">
                     <i class="icofont icofont-ticket"></i> Tiket Saya
@@ -405,7 +405,7 @@
                 <div class="sidebar-title">Menu</div>
                 <ul class="sidebar-menu">
                     <li><a href="{{ route('home') }}" class="active"><i class="icofont icofont-home"></i> Dashboard</a></li>
-                    <li><a href="#"><i class="icofont icofont-film"></i> Jelajahi Film</a></li>
+                    <li><a href="{{ route('welcome') }}"><i class="icofont icofont-film"></i> Jelajahi Film</a></li>
                     <li><a href="#"><i class="icofont icofont-ticket"></i> Pemesanan Saya</a></li>
                     <li><a href="#"><i class="icofont icofont-heart"></i> Favorit</a></li>
                 </ul>

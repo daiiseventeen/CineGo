@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends('user.user')
 
 @section('content')
 <!-- Placeholder untuk Transaksi User -->
