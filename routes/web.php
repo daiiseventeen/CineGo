@@ -1,40 +1,73 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\MovieController;
+use App\Http\Controllers\Admin\StudioController;
+use App\Http\Controllers\Admin\SeatController;
+use App\Http\Controllers\Admin\ScheduleController;
+use App\Http\Controllers\Admin\BookingSeatController;
+use App\Http\Controllers\Admin\DashboardController;
+
+/*
+|--------------------------------------------------------------------------
+| Public Routes
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+/*
+|--------------------------------------------------------------------------
+| Auth Redirect Dashboard
+|--------------------------------------------------------------------------
+*/
 Route::get('/dashboard', function () {
-    if (auth()->user()->role === 'admin') {
-        return redirect()->route('admin.dashboard');
-    }
+    return auth()->user()->role === 'admin'
+        ? redirect()->route('admin.dashboard')
+        : redirect()->route('home');
+})->middleware('auth')->name('dashboard');
 
-    return redirect()->route('home');
-})->middleware(['auth'])->name('dashboard');
-
-
-Route::get('/home', function () {
-    return view('home');
-})->middleware(['auth'])->name('home');
-
-Route::get('/nowplay', function () {
-    return view('user.nowplay');
-})->middleware(['auth'])->name('nowplay');
-
+/*
+|--------------------------------------------------------------------------
+| User Routes
+|--------------------------------------------------------------------------
+*/
 Route::middleware('auth')->group(function () {
+    Route::get('/home', fn() => view('home'))->name('home');
+    Route::get('/nowplay', fn() => view('user.nowplay'))->name('nowplay');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'role:admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
 
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('admin.dashboard');
-});
+        // Dashboard (PAKAI CONTROLLER)
+        Route::get('/dashboard', [DashboardController::class, 'index'])
+            ->name('dashboard');
 
-require __DIR__.'/auth.php';
+        // Movies CRUD
+        Route::resource('movies', MovieController::class);
+        // Studios CRUD
+        Route::resource('studios', StudioController::class);
+        // Seats CRUD
+        Route::resource('seats', SeatController::class);
+        // Schedules CRUD
+        Route::resource('schedules', ScheduleController::class);
+        // Bookings Seats CRUD
+        // Route::resource('booking-seats', BookingSeatController::class);
+    });
+
+require __DIR__ . '/auth.php';
