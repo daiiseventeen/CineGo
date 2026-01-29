@@ -171,7 +171,6 @@
 						<a href="#"><i class="icofont icofont-social-google-plus"></i></a>
 						<a href="#"><i class="icofont icofont-camera"></i></a>
 					</div>
-
 					<!-- Forgot Password -->
 					@if (Route::has('password.request'))
 						<div class="login-forgot mt-3">

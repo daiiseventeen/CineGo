@@ -33,4 +33,10 @@ class Booking extends Model
     {
         return $this->hasMany(BookingSeat::class);
     }
+
+    // Relasi ke Payment
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
 }
