@@ -9,18 +9,20 @@ class BookingSeat extends Model
 {
     use HasFactory;
 
+    protected $table = 'booking_seats';
+
     protected $fillable = [
         'booking_id',
         'seat_id',
     ];
 
-    // Relasi ke Booking
+    // 🔗 booking_seats.booking_id → bookings.id
     public function booking()
     {
         return $this->belongsTo(Booking::class);
     }
 
-    // Relasi ke Seat
+    // 🔗 booking_seats.seat_id → seats.id
     public function seat()
     {
         return $this->belongsTo(Seat::class);

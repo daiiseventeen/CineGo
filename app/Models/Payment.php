@@ -13,19 +13,22 @@ class Payment extends Model
 
     protected $fillable = [
         'booking_id',
+        'order_id',
+        'transaction_id',
         'payment_method',
+        'payment_type',
         'payment_status',
+        'gross_amount',
+        'payload',
         'paid_at',
     ];
 
     protected $casts = [
+        'payload' => 'array',
         'paid_at' => 'datetime',
     ];
 
-    /**
-     * Relasi ke Booking
-     * 1 Payment dimiliki 1 Booking
-     */
+    // 🔗 payments.booking_id → bookings.id
     public function booking()
     {
         return $this->belongsTo(Booking::class);

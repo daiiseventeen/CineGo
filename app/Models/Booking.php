@@ -12,29 +12,30 @@ class Booking extends Model
     protected $fillable = [
         'user_id',
         'schedule_id',
+        'booking_code',
         'total_price',
-        'status', // pending, confirmed, cancelled
+        'status',
     ];
 
-    // Relasi ke User
+    // 🔗 Relasi ke User
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Relasi ke Schedule
+    // 🔗 Relasi ke Schedule
     public function schedule()
     {
         return $this->belongsTo(Schedule::class);
     }
 
-    // Relasi ke BookingSeat
+    // 🔗 Relasi ke kursi yang dibooking
     public function bookingSeats()
     {
         return $this->hasMany(BookingSeat::class);
     }
 
-    // Relasi ke Payment
+    // 🔗 Relasi ke Payment
     public function payment()
     {
         return $this->hasOne(Payment::class);

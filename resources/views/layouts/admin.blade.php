@@ -772,12 +772,12 @@
                         <span>Schedules</span>
                     </a>
                 </li>
-                {{-- <li>
-                    <a href="{{route('admin.booking-seats.index')}}" class="{{ request()->routeIs('admin.booking-seats.*') ? 'active' : '' }}">
+                <li>
+                    <a href="{{route('admin.bookings.index')}}" class="{{ request()->routeIs('admin.bookings.*') ? 'active' : '' }}">
                         <i class="icofont icofont-address-book"></i>
-                        <span>Booking Seats</span>
+                        <span>Bookings</span>
                     </a>
-                </li> --}}
+                </li>
                 <li>
                     <a href="#" class="">
                         <i class="icofont icofont-chart-bar-graph"></i>
