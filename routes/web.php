@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\StudioController;
 use App\Http\Controllers\Admin\SeatController;
 use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Admin\BookingController;
+use App\Http\Controllers\Admin\BookingSeatController;
 use App\Http\Controllers\Admin\DashboardController;
 
 /*
@@ -69,14 +70,9 @@ Route::middleware(['auth', 'role:admin'])
         // Schedules
         Route::resource('schedules', ScheduleController::class);
 
-        // ✅ Bookings (INI YANG KURANG TADI)
         Route::resource('bookings', BookingController::class);
 
-        /**
-         * OPTIONAL (NANTI):
-         * Kalau mau manage kursi booking secara manual di admin
-         */
-        // Route::resource('booking-seats', BookingSeatController::class);
+        Route::resource('booking-seats', BookingSeatController::class);
     });
 
 require __DIR__ . '/auth.php';

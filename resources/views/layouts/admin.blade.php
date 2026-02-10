@@ -779,9 +779,9 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="">
-                        <i class="icofont icofont-chart-bar-graph"></i>
-                        <span>Laporan</span>
+                    <a href="{{route('admin.booking-seats.index')}}" class="{{ request()->routeIs('admin.booking-seats.*') ? 'active' : '' }}">
+                        <i class="icofont icofont-book-alt"></i>
+                        <span>Booking Seats</span>
                     </a>
                 </li>
                 <li>
