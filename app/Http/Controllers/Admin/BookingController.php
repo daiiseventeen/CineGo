@@ -51,6 +51,7 @@ class BookingController extends Controller
         $request->validate([
             'user_id'     => 'required|exists:users,id',
             'schedule_id' => 'required|exists:schedules,id',
+            'total_price' => 'required|numeric|min:0',
         ]);
 
         // 🔐 Ambil harga resmi dari database
@@ -60,7 +61,7 @@ class BookingController extends Controller
             'user_id'      => $request->user_id,
             'schedule_id'  => $schedule->id,
             'booking_code' => 'BK-' . strtoupper(Str::random(8)),
-            'total_price'  => $schedule->movie->price,
+            'total_price'  => $request->total_price,
             'status'       => 'pending',
         ]);
 
@@ -109,6 +110,7 @@ class BookingController extends Controller
             'user_id'     => 'required|exists:users,id',
             'schedule_id' => 'required|exists:schedules,id',
             'status'      => 'required|in:pending,paid,cancelled',
+            'total_price' => 'required|numeric|min:0',
         ]);
 
         $schedule = Schedule::with('movie')->findOrFail($request->schedule_id);
@@ -116,7 +118,7 @@ class BookingController extends Controller
         $booking->update([
             'user_id'     => $request->user_id,
             'schedule_id' => $schedule->id,
-            'total_price' => $schedule->movie->price,
+            'total_price' => $request->total_price,
             'status'      => $request->status,
         ]);
 
