@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Booking extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'schedule_id',
+        'booking_code',
+        'total_price',
+        'status',
+    ];
+
+    // 🔗 Relasi ke User
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    // 🔗 Relasi ke Schedule
+    public function schedule()
+    {
+        return $this->belongsTo(Schedule::class);
+    }
+
+    // 🔗 Relasi ke kursi yang dibooking
+    public function bookingSeats()
+    {
+        return $this->hasMany(BookingSeat::class);
+    }
+
+    // 🔗 Relasi ke Payment
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
+}
