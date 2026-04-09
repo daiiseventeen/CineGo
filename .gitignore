@@ -21,3 +21,15 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+# Environment and server configuration files
+.htaccess
+.user.ini
+.htpasswd
+php.ini
+web.config
+
+# Public directory configuration
+/public/.htaccess
+/public/.user.ini
+/public/.htpasswd
