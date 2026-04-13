@@ -9,10 +9,31 @@ use Illuminate\Http\Request;
 
 class SeatController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $seats = Seat::with('studio')->orderBy('studio_id')->get();
-        return view('admin.seats.index', compact('seats'));
+        // Get filter parameters
+        $studioId = $request->query('studio_id');
+        $limit = $request->query('limit', 25); // Default 25 seats
+        
+        // Get all studios for filter dropdown
+        $studios = Studio::orderBy('name')->get();
+        
+        // Build query
+        $query = Seat::with('studio')->orderBy('studio_id')->orderBy('seat_code');
+        
+        // Apply studio filter if selected
+        if ($studioId) {
+            $query->where('studio_id', $studioId);
+        }
+        
+        // Apply limit
+        $seats = $query->take($limit)->get();
+        
+        // Get total count for display info
+        $totalSeats = Seat::when($studioId, fn($q) => $q->where('studio_id', $studioId))->count();
+        $selectedStudio = $studioId ? Studio::find($studioId) : null;
+        
+        return view('admin.seats.index', compact('seats', 'studios', 'studioId', 'limit', 'totalSeats', 'selectedStudio'));
     }
 
     public function create()

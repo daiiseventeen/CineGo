@@ -101,6 +101,12 @@
     letter-spacing: 1px;
 }
 
+.stat-divider {
+    font-size: 0.6em;
+    color: rgba(255, 255, 255, 0.4);
+    margin-left: 6px;
+}
+
 .stat-pill-content p {
     font-family: 'Poppins', sans-serif;
     font-size: 11px;
@@ -124,6 +130,67 @@
     gap: 20px;
     flex-wrap: wrap;
     animation: fadeInUp 0.8s ease 0.5s backwards;
+}
+
+/* Filter Form */
+.filter-form {
+    display: flex;
+    gap: 15px;
+    flex: 1;
+    min-width: 300px;
+}
+
+.filter-controls {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-group label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.filter-select {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 140px;
+}
+
+.filter-select:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(59, 130, 246, 0.5);
+}
+
+.filter-select:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(59, 130, 246, 0.8);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.filter-select option {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 10px;
 }
 
 .search-box {
@@ -535,6 +602,25 @@
         flex-direction: column;
     }
     
+    .filter-form {
+        width: 100% !important;
+        flex: none;
+    }
+    
+    .filter-controls {
+        width: 100%;
+    }
+    
+    .filter-group {
+        flex: 1;
+        min-width: 140px;
+    }
+    
+    .filter-select {
+        width: 100%;
+        min-width: auto;
+    }
+    
     .search-box {
         width: 100%;
     }
@@ -571,8 +657,8 @@
             <div class="stat-pill">
                 <i class="icofont icofont-ui-settings"></i>
                 <div class="stat-pill-content">
-                    <h4>{{ $seats->count() }}</h4>
-                    <p>Total Seats</p>
+                    <h4>{{ $seats->count() }}<span class="stat-divider">/{{ $totalSeats }}</span></h4>
+                    <p>Seats Shown</p>
                 </div>
             </div>
             <div class="stat-pill">
@@ -589,10 +675,46 @@
                     <p>Regular Seats</p>
                 </div>
             </div>
+            @if($selectedStudio)
+            <div class="stat-pill">
+                <i class="icofont icofont-location"></i>
+                <div class="stat-pill-content">
+                    <h4 style="font-size: 16px;">{{ $selectedStudio->name }}</h4>
+                    <p>Selected Studio</p>
+                </div>
+            </div>
+            @endif
         </div>
         
         <!-- Action Bar -->
         <div class="action-bar">
+            <!-- Studio Filter -->
+            <form method="GET" action="{{ route('admin.seats.index') }}" class="filter-form">
+                <div class="filter-controls">
+                    <div class="filter-group">
+                        <label for="studioFilter">Filter by Studio:</label>
+                        <select id="studioFilter" name="studio_id" onchange="this.form.submit()" class="filter-select">
+                            <option value="">All Studios</option>
+                            @foreach($studios as $studio)
+                                <option value="{{ $studio->id }}" {{ $studioId == $studio->id ? 'selected' : '' }}>
+                                    {{ $studio->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="limitFilter">Show:</label>
+                        <select id="limitFilter" name="limit" onchange="this.form.submit()" class="filter-select">
+                            <option value="25" {{ $limit == 25 ? 'selected' : '' }}>25 Seats</option>
+                            <option value="50" {{ $limit == 50 ? 'selected' : '' }}>50 Seats</option>
+                            <option value="100" {{ $limit == 100 ? 'selected' : '' }}>100 Seats</option>
+                            <option value="999999" {{ $limit == 999999 ? 'selected' : '' }}>All Seats</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            
             <div class="search-box">
                 <i class="icofont icofont-search"></i>
                 <input type="text" id="searchSeat" placeholder="Search seats...">
@@ -610,7 +732,23 @@
     @if($seats->count() > 0)
         <div class="table-container">
             <div class="table-header">
-                <h2>All Seats</h2>
+                <h2>
+                    @if($selectedStudio)
+                        {{ $selectedStudio->name }} Seats
+                        @if($seats->count() < $totalSeats)
+                            <span style="font-size: 14px; color: rgba(255,255,255,0.5); font-weight: 300;">
+                                (Showing {{ $seats->count() }} of {{ $totalSeats }})
+                            </span>
+                        @endif
+                    @else
+                        All Seats
+                        @if($seats->count() < $totalSeats)
+                            <span style="font-size: 14px; color: rgba(255,255,255,0.5); font-weight: 300;">
+                                (Showing {{ $seats->count() }} of {{ $totalSeats }})
+                            </span>
+                        @endif
+                    @endif
+                </h2>
             </div>
             
             <table class="seats-table">

@@ -785,6 +785,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{route('admin.payments.index')}}" class="{{ request()->routeIs('admin.payments.*') ? 'active' : '' }}">
+                        <i class="icofont icofont-money"></i>
+                        <span>Payments</span>
+                    </a>
+                </li>
+                <li>
                     <a href="#" class="">
                         <i class="icofont icofont-ui-settings"></i>
                         <span>Pengaturan</span>

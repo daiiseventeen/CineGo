@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\SeatController;
 use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\BookingSeatController;
+use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\DashboardController;
 
 /*
@@ -29,6 +30,13 @@ Route::get('/dashboard', function () {
         ? redirect()->route('admin.dashboard')
         : redirect()->route('home');
 })->middleware('auth')->name('dashboard');
+
+/*
+|--------------------------------------------------------------------------
+| Public Routes
+|--------------------------------------------------------------------------
+*/
+Route::get('/maintenance', fn () => view('user.maintenance'))->name('maintenance');
 
 /*
 |--------------------------------------------------------------------------
@@ -73,6 +81,8 @@ Route::middleware(['auth', 'role:admin'])
         Route::resource('bookings', BookingController::class);
 
         Route::resource('booking-seats', BookingSeatController::class);
+
+        Route::resource('payments', PaymentController::class);
     });
 
 require __DIR__ . '/auth.php';
